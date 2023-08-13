@@ -34,11 +34,10 @@ class CaixaDaLanchonete {
         let extraSanduiche = false
         let carrinho = []
         let valor = 0
-        let noProblem = true
 
         if(itens.length === 0){
-            console.log("Não há itens no carrinho de compra!");
-            noProblem = false
+            console.log("Não há itens no carrinho de compra!")
+            return "Não há itens no carrinho de compra!";
         }
 
         for(const inputString of itens) {
@@ -48,8 +47,7 @@ class CaixaDaLanchonete {
                 const quantidade = parseInt(match[2], 10);
                 if(quantidade === 0){
                     console.log("Quantidade inválida!")
-                    noProblem = false
-                    break
+                    return "Quantidade inválida!"
                 }
                 if (regexCardapio[itemName]) {
                     carrinho.push(itemName)
@@ -61,20 +59,22 @@ class CaixaDaLanchonete {
                         extraSanduiche = true
                     //valor da compra de cada item
                     valor += cardapio[itemName].valor * parseInt(quantidade)
-                } 
-            } else{
-                console.log( "Item inválido!")
-                noProblem = false
+
+                    //Verificando possibilidade de ter item extra de Sanduiche e/ou Cafe
+                    if ((itemName === "chantily" && extraCafe == false) || (itemName === "queijo" && extraSanduiche == false)) {
+                            console.log("Item extra não pode ser pedido sem o principal")
+                            return "Item extra não pode ser pedido sem o principal"
+                        }
+
+                }else{
+                    console.log("Item inválido!")
+                    return "Item inválido!"
             }
+        }else{
+            console.log("Item inválido!")
+            return "Item inválido!"
         }
-        //Verificando possibilidade de ter item extra de Sanduiche e/ou Cafe
-        carrinho.forEach((e) => {
-            if ((e === "chantily" && !extraCafe) || (e === "queijo" && !extraSanduiche)) {
-                noProblem = false;
-                console.log("Item extra não pode ser pedido sem o principal.");
-            }
-        })
-        if(noProblem){
+        }
             let valorFinal = valor;
 
             if (metodoDePagamento === "dinheiro") {
@@ -82,17 +82,16 @@ class CaixaDaLanchonete {
             } else if (metodoDePagamento === "credito") {
                 valorFinal *= 1.03;
             }
-
-            console.log(`R$ ${valorFinal.toFixed(2).replace(".", ",")}`);
-        }
+            console.log(`R$ ${valorFinal.toFixed(2).replace(".", ",")}`)
+            return `R$ ${valorFinal.toFixed(2).replace(".", ",")}`;
         }else{
             console.log("Forma de pagamento inválida!")
+            return "Forma de pagamento inválida!"
         }
-        return "";
     }
 }
 
 new CaixaDaLanchonete()
-  .calcularValorDaCompra('credito', ['combo1,1','cafe,2']);
+  .calcularValorDaCompra('debito', ['queijo,1', 'cafe,1']);
 
 export { CaixaDaLanchonete };

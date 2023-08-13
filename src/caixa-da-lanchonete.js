@@ -36,7 +36,6 @@ class CaixaDaLanchonete {
         let valor = 0
 
         if(itens.length === 0){
-            console.log("Não há itens no carrinho de compra!")
             return "Não há itens no carrinho de compra!";
         }
 
@@ -46,7 +45,6 @@ class CaixaDaLanchonete {
                 const itemName = match[1];
                 const quantidade = parseInt(match[2], 10);
                 if(quantidade === 0){
-                    console.log("Quantidade inválida!")
                     return "Quantidade inválida!"
                 }
                 if (regexCardapio[itemName]) {
@@ -62,16 +60,13 @@ class CaixaDaLanchonete {
 
                     //Verificando possibilidade de ter item extra de Sanduiche e/ou Cafe
                     if ((itemName === "chantily" && extraCafe == false) || (itemName === "queijo" && extraSanduiche == false)) {
-                            console.log("Item extra não pode ser pedido sem o principal")
                             return "Item extra não pode ser pedido sem o principal"
                         }
 
                 }else{
-                    console.log("Item inválido!")
                     return "Item inválido!"
             }
         }else{
-            console.log("Item inválido!")
             return "Item inválido!"
         }
         }
@@ -82,10 +77,8 @@ class CaixaDaLanchonete {
             } else if (metodoDePagamento === "credito") {
                 valorFinal *= 1.03;
             }
-            console.log(`R$ ${valorFinal.toFixed(2).replace(".", ",")}`)
             return `R$ ${valorFinal.toFixed(2).replace(".", ",")}`;
         }else{
-            console.log("Forma de pagamento inválida!")
             return "Forma de pagamento inválida!"
         }
     }
